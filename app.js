@@ -1,7 +1,7 @@
 const colors = require('colors');
 const fs = require('fs').promises;
 //Crea la interfaz que permite interactuar con la consola en NodeJs
-const readline = require('readline').createInterface({input:process.stdin, output:process.stdou,});
+const readline = require('readline').createInterface({ input: process.stdin, output: process.stdou, });
 class Producto {
     //Definir atributos
     #codigoproducto;
@@ -66,16 +66,16 @@ class ProductosTienda {
         //for each recorre el array y realiza operaciones en cada uno de sus elementos
         this.#listaproductos.forEach((producto) => {
             console.log(
-                `|    `+
+                `|    ` +
                 producto.codigoproducto +
-                `    |`+
-                `    |`+
+                `    |` +
+                `    |` +
                 producto.nombreproducto +
-                `    |`+
-                `     `+
+                `    |` +
+                `     ` +
                 producto.inventarioproducto +
-                `    |`+
-                `     `+
+                `    |` +
+                `     ` +
                 producto.precioproducto +
                 `    |`
             );
@@ -90,7 +90,7 @@ const agregarProducto = async (productosTienda, nuevoProducto) => {
     console.log(`Producto agregado:`.bgCyan);
     console.log(nuevoProducto);
     //await espera a que se complete una operación asincrónica antes de continuar con el código
-    await grabararchivosproductos(productosTienda.listaproductos.map(producto =>({
+    await grabararchivosproductos(productosTienda.listaproductos.map(producto => ({
         codigoproducto: producto.codigoproducto,
         nombreproducto: producto.nombreproducto,
         inventarioproducto: producto.inventarioproducto,
@@ -102,7 +102,7 @@ const grabararchivosproductos = async (listaproductos) => {
     // envuelve  código que podría generar excepciones
     try {
         //convierte en cadena JSON
-        const cadenaJson = JSON.stringify(listaproductos,null,2);
+        const cadenaJson = JSON.stringify(listaproductos, null, 2);
         const nombrearchivo = './datos.json';
         //wiritefile escribe datos en un archivo en el sistema de archivos
         await fs.writeFile(nombrearchivo, cadenaJson, 'utf-8');
@@ -129,30 +129,34 @@ const mostrarMenu = () => {
 };
 
 const pausa = () => {
-    return new Promise((resolve)=>{
-        readline.question(`\nPresione ${'ENTER'.blue} para continuar\n`, (opt)=>{
+    return new Promise((resolve) => {
+        readline.question(`\nPresione ${'ENTER'.blue} para continuar\n`, (opt) => {
             resolve();
         });
     });
 };
 
 const obtenerDetallesProducto = async () => {
-    return new Promise((resolve) =>{
+    return new Promise((resolve) => {
         const nuevoProducto = new Producto();
+        const readline = require('readline').createInterface({
+            input: process.stdin,
+            output: process.stdout
+        });
 
-        readline.question('codigo del producto: ', (codigo) =>{
+        readline.question('Código del producto: ', (codigo) => {
             nuevoProducto.codigoproducto = codigo;
-            readline.question('nombre del producto: ', (nombre) => {
-            nuevoProducto.nombreproducto = nombre;
-            readline.question('inventario del producto ', (inventario) => {
-            //ParseInt convierte cadenas en numeros enteros
-            nuevoProducto.inventarioproducto = parseInt(inventario);
-            readline.question('precio del producto: ', (precio) => {
-            //parseFloat    realiza operaciones matemáticas con valores contenidos en cadenas que tienen decimales
-            nuevoProducto.precioproducto = parseFloat(precio);
-            resolve(nuevoProducto);
-            });
-            });
+            readline.question('Nombre del producto: ', (nombre) => {
+                nuevoProducto.nombreproducto = nombre;
+                readline.question('Inventario del producto: ', (inventario) => {
+                    // ParseInt convierte cadenas en números enteros
+                    nuevoProducto.inventarioproducto = parseInt(inventario);
+                    readline.question('Precio del producto: ', (precio) => {
+                        // parseFloat realiza operaciones matemáticas con valores contenidos en cadenas que tienen decimales
+                        nuevoProducto.precioproducto = parseFloat(precio);
+                        resolve(nuevoProducto);
+                    });
+                });
             });
         });
     });
@@ -174,11 +178,11 @@ const main = async () => {
         switch (opcion) {
             case '1':
 
-            console.log(`Ingrese los detalles del nuevo producto:`.bgBlue);
+                console.log(`Ingrese los detalles del nuevo producto:`.bgBlue);
                 const nuevoProducto = await obtenerDetallesProducto();
-            await agregarProducto(productostienda, nuevoProducto);
-            await pausa();
-            break;
+                await agregarProducto(productostienda, nuevoProducto);
+                await pausa();
+                break;
 
             case '2':
                 console.log(`Listado de productos:`.bgBlue);
@@ -187,12 +191,12 @@ const main = async () => {
                 break;
             case '3':
 
-            salir = true;
-            break;
-        default:
-            console.log(`opcion no valida por favor selecione una opcion valida`.bgRed);
-            await pausa();
-            break;
+                salir = true;
+                break;
+            default:
+                console.log(`opcion no valida por favor selecione una opcion valida`.bgRed);
+                await pausa();
+                break;
         }
     }
     //Cierra la interfaz creada
