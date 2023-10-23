@@ -1,8 +1,14 @@
 [
   {
-    "codigoproducto": "1",
-    "nombreproducto": "1",
-    "inventarioproducto": 1,
-    "precioproducto": 1
+    "codigoproducto": "jabon",
+    "nombreproducto": "10",
+    "inventarioproducto": 1888,
+    "precioproducto": 13
+  },
+  {
+    "codigoproducto": "1z",
+    "nombreproducto": "zapatillas",
+    "inventarioproducto": 20,
+    "precioproducto": 90000
   }
 ]

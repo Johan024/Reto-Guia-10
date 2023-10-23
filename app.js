@@ -1,7 +1,9 @@
 const colors = require('colors');
 const fs = require('fs').promises;
+//Crea la interfaz que permite interactuar con la consola en NodeJs
 const readline = require('readline').createInterface({input:process.stdin, output:process.stdou,});
 class Producto {
+    //Definir atributos
     #codigoproducto;
     #nombreproducto;
     #inventarioproducto;
@@ -13,6 +15,7 @@ class Producto {
         this.#precioproducto = 0;
     }
 
+    //Metodos setter y getter
     get codigoproducto() {
         return this.#codigoproducto;
     }
@@ -60,6 +63,7 @@ class ProductosTienda {
     }
 
     mostrarproductos() {
+        //for each recorre el array y realiza operaciones en cada uno de sus elementos
         this.#listaproductos.forEach((producto) => {
             console.log(
                 `|    `+
@@ -79,11 +83,13 @@ class ProductosTienda {
     }
 }
 
-
+//Agrega productos 
 const agregarProducto = async (productosTienda, nuevoProducto) => {
+    //.push permite agregar elementos al final del array
     productosTienda.listaproductos.push(nuevoProducto);
     console.log(`Producto agregado:`.bgCyan);
     console.log(nuevoProducto);
+    //await espera a que se complete una operación asincrónica antes de continuar con el código
     await grabararchivosproductos(productosTienda.listaproductos.map(producto =>({
         codigoproducto: producto.codigoproducto,
         nombreproducto: producto.nombreproducto,
@@ -93,9 +99,12 @@ const agregarProducto = async (productosTienda, nuevoProducto) => {
 };
 
 const grabararchivosproductos = async (listaproductos) => {
+    // envuelve  código que podría generar excepciones
     try {
+        //convierte en cadena JSON
         const cadenaJson = JSON.stringify(listaproductos,null,2);
         const nombrearchivo = './datos.json';
+        //wiritefile escribe datos en un archivo en el sistema de archivos
         await fs.writeFile(nombrearchivo, cadenaJson, 'utf-8');
         console.log(`DATOS GUARDADOS EN ${nombrearchivo}`.bgCyan);
     } catch (error) {
@@ -112,6 +121,7 @@ const mostrarMenu = () => {
         console.log(`${'2.'.red} Listar productos`);
         console.log(`${'3.'.red} Salir\n`);
 
+        //pregunta que se muestra en consola
         readline.question('Seleccione una opción: ', (opt) => {
             resolve(opt);
         });
@@ -135,8 +145,10 @@ const obtenerDetallesProducto = async () => {
             readline.question('nombre del producto: ', (nombre) => {
             nuevoProducto.nombreproducto = nombre;
             readline.question('inventario del producto ', (inventario) => {
+            //ParseInt convierte cadenas en numeros enteros
             nuevoProducto.inventarioproducto = parseInt(inventario);
             readline.question('precio del producto: ', (precio) => {
+            //parseFloat    realiza operaciones matemáticas con valores contenidos en cadenas que tienen decimales
             nuevoProducto.precioproducto = parseFloat(precio);
             resolve(nuevoProducto);
             });
@@ -183,6 +195,7 @@ const main = async () => {
             break;
         }
     }
+    //Cierra la interfaz creada
     readline.close();
     console.log('¡Gracias, hasta pronto!'.bgGreen);
 };
