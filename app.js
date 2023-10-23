@@ -131,10 +131,11 @@ const mostrarMenu = () => {
 const pausa = () => {
     return new Promise((resolve) => {
         readline.question(`\nPresione ${'ENTER'.blue} para continuar\n`, (opt) => {
-            resolve();
+            resolve(opt);
         });
     });
 };
+
 
 const obtenerDetallesProducto = async () => {
     return new Promise((resolve) => {
@@ -144,14 +145,14 @@ const obtenerDetallesProducto = async () => {
             output: process.stdout
         });
 
-        readline.question('Código del producto: ', (codigo) => {
+        readline.question('Digite el código del producto: ', (codigo) => {
             nuevoProducto.codigoproducto = codigo;
-            readline.question('Nombre del producto: ', (nombre) => {
+            readline.question('Digite el nombre del producto: ', (nombre) => {
                 nuevoProducto.nombreproducto = nombre;
-                readline.question('Inventario del producto: ', (inventario) => {
+                readline.question('Digite la cantidad existente del producto: ', (inventario) => {
                     // ParseInt convierte cadenas en números enteros
                     nuevoProducto.inventarioproducto = parseInt(inventario);
-                    readline.question('Precio del producto: ', (precio) => {
+                    readline.question('Digite el precio del producto: ', (precio) => {
                         // parseFloat realiza operaciones matemáticas con valores contenidos en cadenas que tienen decimales
                         nuevoProducto.precioproducto = parseFloat(precio);
                         resolve(nuevoProducto);
